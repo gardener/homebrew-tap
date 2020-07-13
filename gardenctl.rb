@@ -1,14 +1,14 @@
 class Gardenctl < Formula
   desc "Gardenctl"
   homepage "https://gardener.cloud"
-  version "v0.17.0"
+  version "v0.18.0"
 
   if OS.mac?
-    url "https://github.com/gardener/gardenctl/releases/download/v0.17.0/gardenctl-darwin-amd64"
-    sha256 "ca6ec9804432a36e45e30bf5fd903c68cef3574062fb9bac6eb80a557d863486"
+    url "https://github.com/gardener/gardenctl/releases/download/v0.18.0/gardenctl-darwin-amd64"
+    sha256 "a4d9cc3eacbf239b99dcb3514715d4a9339768350d7d990bdc00ff23fd312e64"
   elsif OS.linux?
-    url "https://github.com/gardener/gardenctl/releases/download/v0.17.0/gardenctl-linux-amd64"
-    sha256 "8d33c751e8d32fe7fff15306c7de59cf15c45fb04e2f9abf988d3edd3f305cc4"
+    url "https://github.com/gardener/gardenctl/releases/download/v0.18.0/gardenctl-linux-amd64"
+    sha256 "36d5c1ee451c3d06d70e65e6c70e5bad05ca84ee515708c50e3195fe67aff1e0"
   end
 
   depends_on :arch => :x86_64
