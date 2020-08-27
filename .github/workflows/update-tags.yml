@@ -17,7 +17,7 @@ jobs:
       - name: Commit files
         run: |
           git config --local user.email "gardener.ci.user2@gmail.com"
-          git config --local user.name "gardener-ci2"
+          git config --local user.name "gardener-robot-ci-2"
           git commit -m "Update gardenctl" -a
       - name: Push changes
         uses: ad-m/github-push-action@v0.6.0
