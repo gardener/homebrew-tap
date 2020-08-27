@@ -10,7 +10,7 @@ cat > gardenctl.rb << EOF
 class Gardenctl < Formula
   desc "Gardenctl"
   homepage "https://gardener.cloud"
-  version "v0.17.0"
+  version "$tag"
 
   if OS.mac?
     url "https://github.com/gardener/gardenctl/releases/download/$tag/gardenctl-darwin-amd64"
