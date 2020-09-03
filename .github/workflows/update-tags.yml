@@ -7,13 +7,14 @@ jobs:
       - name: Event Information
         run: |
           echo "Event '${{ github.event.action }}' payload '${{ github.event.client_payload.tag }}'"
-          echo  "commit hash '${{ github.event.client_payload.sha }}'"
+          echo "Mac gardenctl commit hash '${{ github.event.client_payload.mac_sha }}'"
+          echo "Mac gardenctl commit hash '${{ github.event.client_payload.linux_sha }}'"
       - uses: actions/checkout@v2.1.1
         # with:
         #   persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
         #   fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
       - name: Run update script
-        run:  ./.github/workflows/update-gardenctl.sh ${{ github.event.client_payload.tag }} ${{ github.event.client_payload.sha }}
+        run:  ./.github/workflows/update-gardenctl.sh ${{ github.event.client_payload.tag }} ${{ github.event.client_payload.mac_sha }} ${{ github.event.client_payload.linux_sha }}
       - name: Commit files
         run: |
           git config --local user.email "gardener.ci.user@gmail.com"
