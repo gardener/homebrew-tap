@@ -1,8 +1,23 @@
 #!/usr/bin/env bash
 
-tag=${1:-v0.17.0}
-mac_sha=${2:-f6cbd049d200a1857e9bb89cd614f0f96851ef2db307a18609a18effbb4497eb}
-linux_sha=${3:-f6cbd049d200a1857e9bb89cd614f0f96851ef2db307a18609a18effbb4497eb}
+tag=${1}
+mac_sha=${2}
+linux_sha=${3}
+if [ -z "${1}" ]
+then
+      echo "release tag is not provided"
+      exit 1
+fi
+if [ -z "${2}" ]
+then
+      echo "mac binary sha256sum is not provided"
+      exit 1
+fi
+if [ -z "${3}" ]
+then
+      echo "linux binary sha256sum is not provided"
+      exit 1
+fi
 
 echo $tag
 echo $mac_sha

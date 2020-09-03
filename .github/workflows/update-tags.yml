@@ -7,8 +7,8 @@ jobs:
       - name: Event Information
         run: |
           echo "Event '${{ github.event.action }}' payload '${{ github.event.client_payload.tag }}'"
-          echo "Mac gardenctl commit hash '${{ github.event.client_payload.mac_sha }}'"
-          echo "Mac gardenctl commit hash '${{ github.event.client_payload.linux_sha }}'"
+          echo "Mac gardenctl binary hash '${{ github.event.client_payload.mac_sha }}'"
+          echo "Linux gardenctl binary hash '${{ github.event.client_payload.linux_sha }}'"
       - uses: actions/checkout@v2.1.1
         # with:
         #   persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
