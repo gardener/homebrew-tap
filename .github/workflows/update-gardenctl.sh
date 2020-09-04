@@ -1,10 +1,27 @@
 #!/usr/bin/env bash
 
-filteredTag=${1##*/}
-tag=${filteredTag:-v0.17.0}
-sha=${2:-8d33c751e8d32fe7fff15306c7de59cf15c45fb04e2f9abf988d3edd3f305cc4}
+tag=${1}
+mac_sha=${2}
+linux_sha=${3}
+if [ -z "${1}" ]
+then
+      echo "release tag is not provided"
+      exit 1
+fi
+if [ -z "${2}" ]
+then
+      echo "mac binary sha256sum is not provided"
+      exit 1
+fi
+if [ -z "${3}" ]
+then
+      echo "linux binary sha256sum is not provided"
+      exit 1
+fi
 
 echo $tag
+echo $mac_sha
+echo $linux_sha
 
 cat > gardenctl.rb << EOF
 class Gardenctl < Formula
@@ -14,10 +31,10 @@ class Gardenctl < Formula
 
   if OS.mac?
     url "https://github.com/gardener/gardenctl/releases/download/$tag/gardenctl-darwin-amd64"
-    sha256 "$sha"
+    sha256 "$mac_sha"
   elsif OS.linux?
     url "https://github.com/gardener/gardenctl/releases/download/$tag/gardenctl-linux-amd64"
-    sha256 "$sha"
+    sha256 "$linux_sha"
   end
 
   depends_on :arch => :x86_64
