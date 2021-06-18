@@ -2,6 +2,7 @@ name: Remote Dispatch Action
 on: [repository_dispatch]
 jobs:
   update-gardenctl:
+    if: github.event.client_payload.component == 'gardenctl'
     runs-on: ubuntu-latest
     steps:
       - name: Event Information
@@ -10,9 +11,6 @@ jobs:
           echo "Mac gardenctl binary hash '${{ github.event.client_payload.mac_sha }}'"
           echo "Linux gardenctl binary hash '${{ github.event.client_payload.linux_sha }}'"
       - uses: actions/checkout@v2.1.1
-        # with:
-        #   persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
-        #   fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
       - name: Run update script
         run:  ./.github/workflows/update-gardenctl.sh ${{ github.event.client_payload.tag }} ${{ github.event.client_payload.mac_sha }} ${{ github.event.client_payload.linux_sha }}
       - name: Commit files
@@ -23,5 +21,28 @@ jobs:
       - name: Push changes
         uses: ad-m/github-push-action@v0.6.0
         with:
-          github_token: ${{ secrets.ACCESS_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          force: false
+  update-gardenlogin:
+    if: github.event.client_payload.component == 'gardenlogin'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Event Information
+        run: |
+          echo "Event '${{ github.event.action }}' payload '${{ github.event.client_payload.tag }}'"
+          echo "Mac gardenlogin binary hash '${{ github.event.client_payload.mac_sha }}'"
+          echo "Linux gardenlogin binary hash '${{ github.event.client_payload.linux_sha }}'"
+      - uses: actions/checkout@v2.1.1
+      - name: Run update script
+        run:  ./.github/workflows/update-gardenlogin.sh ${{ github.event.client_payload.tag }} ${{ github.event.client_payload.mac_sha }} ${{ github.event.client_payload.linux_sha }}
+      - name: Commit files
+        run: |
+          git config --local user.email "gardener.ci.user@gmail.com"
+          git config --local user.name "gardener-robot-ci-1"
+          git add gardenlogin.rb
+          git commit -m "Update gardenlogin"
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           force: false
