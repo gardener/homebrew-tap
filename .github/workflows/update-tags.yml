@@ -30,11 +30,11 @@ jobs:
       - name: Event Information
         run: |
           echo "Event '${{ github.event.action }}' payload '${{ github.event.client_payload.tag }}'"
-          echo "Mac gardenlogin binary hash '${{ github.event.client_payload.mac_sha }}'"
+          echo "Mac gardenlogin binary hash '${{ github.event.client_payload.darwin_sha }}'"
           echo "Linux gardenlogin binary hash '${{ github.event.client_payload.linux_sha }}'"
       - uses: actions/checkout@v2.1.1
       - name: Run update script
-        run:  ./.github/workflows/update-gardenlogin.sh ${{ github.event.client_payload.tag }} ${{ github.event.client_payload.mac_sha }} ${{ github.event.client_payload.linux_sha }}
+        run:  ./.github/workflows/update-gardenlogin.sh ${{ github.event.client_payload.tag }} ${{ github.event.client_payload.darwin_sha }} ${{ github.event.client_payload.linux_sha }}
       - name: Commit files
         run: |
           git config --local user.email "gardener.ci.user@gmail.com"
