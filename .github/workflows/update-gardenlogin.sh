@@ -30,10 +30,10 @@ class Gardenlogin < Formula
   version "$tag"
 
   if OS.mac?
-    url "https://github.com/gardener/gardenlogin/releases/download/$tag/gardenlogin-darwin-amd64"
+    url "https://github.com/gardener/gardenlogin/releases/download/$tag/gardenlogin_darwin_amd64"
     sha256 "$darwin_sha"
   elsif OS.linux?
-    url "https://github.com/gardener/gardenlogin/releases/download/$tag/gardenlogin-linux-amd64"
+    url "https://github.com/gardener/gardenlogin/releases/download/$tag/gardenlogin_linux_amd64"
     sha256 "$linux_sha"
   end
 
