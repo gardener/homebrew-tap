@@ -41,10 +41,12 @@ class Gardenlogin < Formula
 
   def install
     bin.install stable.url.split("/")[-1] => "gardenlogin"
+    bin.install_symlink bin/"gardenlogin" => "kubectl-gardenlogin"
   end
 
   test do
     system "#{bin}/gardenlogin", "version"
+    system "#{bin}/kubectl-gardenlogin", "version"
   end
 end
 
