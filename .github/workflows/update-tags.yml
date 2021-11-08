@@ -30,7 +30,7 @@ jobs:
       - name: Event Information
         run: |
           echo "Event '${{ github.event.action }}' payload '${{ github.event.client_payload.tag }}'"
-          echo "Mac gardenctl-v2 binary hash '${{ github.event.client_payload.mac_sha }}'"
+          echo "Mac gardenctl-v2 binary hash '${{ github.event.client_payload.darwin_sha }}'"
           echo "Linux gardenctl-v2 binary hash '${{ github.event.client_payload.linux_sha }}'"
       - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # pin@v2.4.0
       - name: Run update script

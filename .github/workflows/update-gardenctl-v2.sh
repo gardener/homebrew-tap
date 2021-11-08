@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 tag=${1}
-mac_sha=${2}
+darwin_sha=${2}
 linux_sha=${3}
 if [ -z "${1}" ]
 then
@@ -20,7 +20,7 @@ then
 fi
 
 echo $tag
-echo $mac_sha
+echo $darwin_sha
 echo $linux_sha
 
 cat > gardenctl-v2.rb << EOF
@@ -31,7 +31,7 @@ class Gardenctl < Formula
 
   if OS.mac?
     url "https://github.com/gardener/gardenctl-v2/releases/download/$tag/gardenctl_v2_darwin_amd64"
-    sha256 "$mac_sha"
+    sha256 "$darwin_sha"
   elsif OS.linux?
     url "https://github.com/gardener/gardenctl-v2/releases/download/$tag/gardenctl_v2_linux_amd64"
     sha256 "$linux_sha"
