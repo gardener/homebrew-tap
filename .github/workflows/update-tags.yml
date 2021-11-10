@@ -30,11 +30,12 @@ jobs:
       - name: Event Information
         run: |
           echo "Event '${{ github.event.action }}' payload '${{ github.event.client_payload.tag }}'"
-          echo "Mac gardenctl-v2 binary hash '${{ github.event.client_payload.darwin_sha }}'"
+          echo "Darwin amd64 gardenctl-v2 binary hash '${{ github.event.client_payload.darwin_sha_amd64 }}'"
+          echo "Darwin arm64 gardenctl-v2 binary hash '${{ github.event.client_payload.darwin_sha_arm64 }}'"
           echo "Linux gardenctl-v2 binary hash '${{ github.event.client_payload.linux_sha }}'"
       - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # pin@v2.4.0
       - name: Run update script
-        run:  ./.github/workflows/update-gardenctl-v2.sh ${{ github.event.client_payload.tag }} ${{ github.event.client_payload.darwin_sha }} ${{ github.event.client_payload.linux_sha }}
+        run:  ./.github/workflows/update-gardenctl-v2.sh ${{ github.event.client_payload.tag }} ${{ github.event.client_payload.darwin_sha_amd64 }} ${{ github.event.client_payload.darwin_sha_arm64 }} ${{ github.event.client_payload.linux_sha }}
       - name: Commit files
         run: |
           git config --local user.email "gardener.ci.user@gmail.com"
@@ -53,11 +54,12 @@ jobs:
       - name: Event Information
         run: |
           echo "Event '${{ github.event.action }}' payload '${{ github.event.client_payload.tag }}'"
-          echo "Mac gardenlogin binary hash '${{ github.event.client_payload.darwin_sha }}'"
+          echo "Darwin amd64 gardenctl-v2 binary hash '${{ github.event.client_payload.darwin_sha_amd64 }}'"
+          echo "Darwin arm64 gardenctl-v2 binary hash '${{ github.event.client_payload.darwin_sha_arm64 }}'"
           echo "Linux gardenlogin binary hash '${{ github.event.client_payload.linux_sha }}'"
       - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # pin@v2.4.0
       - name: Run update script
-        run:  ./.github/workflows/update-gardenlogin.sh ${{ github.event.client_payload.tag }} ${{ github.event.client_payload.darwin_sha }} ${{ github.event.client_payload.linux_sha }}
+        run:  ./.github/workflows/update-gardenlogin.sh ${{ github.event.client_payload.tag }} ${{ github.event.client_payload.darwin_sha_amd64 }} ${{ github.event.client_payload.darwin_sha_arm64 }} ${{ github.event.client_payload.linux_sha }}
       - name: Commit files
         run: |
           git config --local user.email "gardener.ci.user@gmail.com"
