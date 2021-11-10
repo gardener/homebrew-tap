@@ -3,7 +3,7 @@
 tag=${1}
 darwin_sha_amd64=${2}
 darwin_sha_arm64=${3}
-linux_sha=${4}
+linux_sha_amd64=${4}
 if [ -z "${1}" ]
 then
       echo "release tag is not provided"
@@ -28,7 +28,7 @@ fi
 echo $tag
 echo $darwin_sha_amd64
 echo $darwin_sha_arm64
-echo $linux_sha
+echo $linux_sha_amd64
 
 cat > gardenlogin.rb << EOF
 class Gardenlogin < Formula
@@ -46,7 +46,7 @@ class Gardenlogin < Formula
     end
   elsif OS.linux?
     url "https://github.com/gardener/gardenlogin/releases/download/$tag/gardenlogin_linux_amd64"
-    sha256 "$linux_sha"
+    sha256 "$linux_sha_amd64"
   end
 
   depends_on :arch => :x86_64
