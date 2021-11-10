@@ -54,8 +54,8 @@ jobs:
       - name: Event Information
         run: |
           echo "Event '${{ github.event.action }}' payload '${{ github.event.client_payload.tag }}'"
-          echo "Darwin amd64 gardenctl-v2 binary hash '${{ github.event.client_payload.darwin_sha_amd64 }}'"
-          echo "Darwin arm64 gardenctl-v2 binary hash '${{ github.event.client_payload.darwin_sha_arm64 }}'"
+          echo "Darwin amd64 gardenlogin binary hash '${{ github.event.client_payload.darwin_sha_amd64 }}'"
+          echo "Darwin arm64 gardenlogin binary hash '${{ github.event.client_payload.darwin_sha_arm64 }}'"
           echo "Linux gardenlogin binary hash '${{ github.event.client_payload.linux_sha_amd64 }}'"
       - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # pin@v2.4.0
       - name: Run update script
