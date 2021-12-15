@@ -1,19 +1,19 @@
 class Gardenlogin < Formula
   desc "Gardenlogin"
   homepage "https://gardener.cloud"
-  version "v0.1.5"
+  version "v0.2.0"
 
   if OS.mac?
     if Hardware::CPU.arm?
-      url "https://github.com/gardener/gardenlogin/releases/download/v0.1.5/gardenlogin_darwin_arm64"
-      sha256 "7e2631f1701ad6053e1bfaab1af5df9a6c4f09978dc2c6fd26a6d92210ab8483"
+      url "https://github.com/gardener/gardenlogin/releases/download/v0.2.0/gardenlogin_darwin_arm64"
+      sha256 "e6b7fe0079262f23724b20fe1441451261aa2b10ad867223ba0aae687abd3373"
     else
-      url "https://github.com/gardener/gardenlogin/releases/download/v0.1.5/gardenlogin_darwin_amd64"
-      sha256 "b76678514d96b960fe4adeaf64d901f89b4c32ef574eaa1368938462bfbabee2"
+      url "https://github.com/gardener/gardenlogin/releases/download/v0.2.0/gardenlogin_darwin_amd64"
+      sha256 "617dcfba7c1f540f93c59a0232c5974a351dc6c532100d5ff1a13b08fd2322ca"
     end
   elsif OS.linux?
-    url "https://github.com/gardener/gardenlogin/releases/download/v0.1.5/gardenlogin_linux_amd64"
-    sha256 "a51fbd6e5885ecd32c9b52ef05ff082521288431e4339858c10277c0b8e2ad37"
+    url "https://github.com/gardener/gardenlogin/releases/download/v0.2.0/gardenlogin_linux_amd64"
+    sha256 "51c0f325368f805ad2e6138e702032f2886c83d278c596e74059260a1efad016"
   end
 
   depends_on :arch => :x86_64
