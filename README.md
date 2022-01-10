@@ -6,7 +6,7 @@ To install a package:
 
 ```bash
 $ brew tap gardener/tap
-$ brew install gardenctl
+$ brew install gardenctl gardenlogin
 ```
 
 ## Development
