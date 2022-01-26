@@ -52,11 +52,11 @@ class GardenctlV2 < Formula
   depends_on :arch => :x86_64
 
   def install
-    bin.install stable.url.split("/")[-1] => "gardenctl-v2"
+    bin.install stable.url.split("/")[-1] => "gardenctl"
   end
 
   test do
-    system "#{bin}/gardenctl-v2", "version"
+    system "#{bin}/gardenctl", "version"
   end
 end
 
