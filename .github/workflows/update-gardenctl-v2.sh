@@ -47,9 +47,8 @@ class GardenctlV2 < Formula
   elsif OS.linux?
     url "https://github.com/gardener/gardenctl-v2/releases/download/$tag/gardenctl_v2_linux_amd64"
     sha256 "$linux_sha_amd64"
+    depends_on :arch => :x86_64
   end
-
-  depends_on :arch => :x86_64
 
   def install
     bin.install stable.url.split("/")[-1] => "gardenctl"
