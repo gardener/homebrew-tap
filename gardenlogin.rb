@@ -14,9 +14,8 @@ class Gardenlogin < Formula
   elsif OS.linux?
     url "https://github.com/gardener/gardenlogin/releases/download/v0.2.0/gardenlogin_linux_amd64"
     sha256 "51c0f325368f805ad2e6138e702032f2886c83d278c596e74059260a1efad016"
+    depends_on :arch => :x86_64
   end
-
-  depends_on :arch => :x86_64
 
   def install
     bin.install stable.url.split("/")[-1] => "gardenlogin"
