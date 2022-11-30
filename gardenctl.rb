@@ -15,6 +15,9 @@ class Gardenctl < Formula
 
   def install
     bin.install stable.url.split("/")[-1] => "gardenctl"
+
+    print "\n[WARNING]\n"
+    print "  gardenctl is deprecated. Please install gardenctl-v2 instead.\n\n"
   end
 
   test do
