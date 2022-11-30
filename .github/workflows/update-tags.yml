@@ -1,28 +1,6 @@
 name: Remote Dispatch Action
 on: [repository_dispatch]
 jobs:
-  update-gardenctl:
-    if: github.event.client_payload.component == 'gardenctl'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Event Information
-        run: |
-          echo "Event '${{ github.event.action }}' payload '${{ github.event.client_payload.tag }}'"
-          echo "Mac gardenctl binary hash '${{ github.event.client_payload.mac_sha }}'"
-          echo "Linux gardenctl binary hash '${{ github.event.client_payload.linux_sha }}'"
-      - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # pin@v2.4.0
-      - name: Run update script
-        run:  ./.github/workflows/update-gardenctl.sh ${{ github.event.client_payload.tag }} ${{ github.event.client_payload.mac_sha }} ${{ github.event.client_payload.linux_sha }}
-      - name: Commit files
-        run: |
-          git config --local user.email "gardener.ci.user@gmail.com"
-          git config --local user.name "gardener-robot-ci-1"
-          git commit -m "Update gardenctl" -a
-      - name: Push changes
-        uses: ad-m/github-push-action@40bf560936a8022e68a3c00e7d2abefaf01305a6 # pin@v0.6.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          force: false
   update-gardenctl-v2:
     if: github.event.client_payload.component == 'gardenctl-v2'
     runs-on: ubuntu-latest
@@ -71,4 +49,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           force: false
-          
