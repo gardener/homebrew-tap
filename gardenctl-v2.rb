@@ -3,6 +3,8 @@ class GardenctlV2 < Formula
   homepage "https://gardener.cloud"
   version "v2.1.1"
 
+  depends_on "gardener/tap/gardenlogin"
+
   if OS.mac?
     if Hardware::CPU.arm?
       url "https://github.com/gardener/gardenctl-v2/releases/download/v2.1.1/gardenctl_v2_darwin_arm64"
