@@ -3,6 +3,8 @@ class GardenctlV2 < Formula
   homepage "https://gardener.cloud"
   version "v2.1.1"
 
+  depends_on "gardener/tap/gardenlogin"
+
   if OS.mac?
     if Hardware::CPU.arm?
       url "https://github.com/gardener/gardenctl-v2/releases/download/v2.1.1/gardenctl_v2_darwin_arm64"
@@ -19,6 +21,11 @@ class GardenctlV2 < Formula
 
   def install
     bin.install stable.url.split("/")[-1] => "gardenctl"
+
+    print "\n[HINT]\n"
+    print "  Consider to add the gardenctl startup script to your shell profile.\n"
+    print "  It contains various tweaks, such as setting environment variables, loading completions and adding some helpful aliases or functions.\n"
+    print "  Run `gardenctl rc --help` for more information.\n\n"
   end
 
   test do
