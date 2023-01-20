@@ -1,21 +1,21 @@
 class GardenctlV2 < Formula
   desc "Gardenctl-v2"
   homepage "https://gardener.cloud"
-  version "v2.1.1"
+  version "v2.2.0"
 
   depends_on "gardener/tap/gardenlogin"
 
   if OS.mac?
     if Hardware::CPU.arm?
-      url "https://github.com/gardener/gardenctl-v2/releases/download/v2.1.1/gardenctl_v2_darwin_arm64"
-      sha256 "e387f80c783062c23acef30000ef7bdfc534c93844d2d1719b83be6572d4bfbd"
+      url "https://github.com/gardener/gardenctl-v2/releases/download/v2.2.0/gardenctl_v2_darwin_arm64"
+      sha256 "b961c5d52865c938ad4f9e1cd53b659f731edbd4bb72d17a80d3bccaf7825507"
     else
-      url "https://github.com/gardener/gardenctl-v2/releases/download/v2.1.1/gardenctl_v2_darwin_amd64"
-      sha256 "80a7f3fed0cef950d9cae02afb8c1668854ce8df2cb150f945558d47953c367f"
+      url "https://github.com/gardener/gardenctl-v2/releases/download/v2.2.0/gardenctl_v2_darwin_amd64"
+      sha256 "dadcffc96a84b0d2cda936044b9ec74c27a002a288a76d0eb7644f4fa18bd50b"
     end
   elsif OS.linux?
-    url "https://github.com/gardener/gardenctl-v2/releases/download/v2.1.1/gardenctl_v2_linux_amd64"
-    sha256 "9275ee86e6fa011f0f64f620f997f2f17331c915426397e19133205bd26939c5"
+    url "https://github.com/gardener/gardenctl-v2/releases/download/v2.2.0/gardenctl_v2_linux_amd64"
+    sha256 "d3d0fb33b8581eaad4a9f3216c3567cd0ae2fee47ae19cf9b22025bc993b4291"
     depends_on :arch => :x86_64
   end
 
@@ -25,7 +25,7 @@ class GardenctlV2 < Formula
     print "\n[HINT]\n"
     print "  Consider to add the gardenctl startup script to your shell profile.\n"
     print "  It contains various tweaks, such as setting environment variables, loading completions and adding some helpful aliases or functions.\n"
-    print "  Run `gardenctl rc --help` for more information.\n\n"
+    print "  Run  for more information.\n\n"
   end
 
   test do
