@@ -58,7 +58,7 @@ class GardenctlV2 < Formula
     print "\n[HINT]\n"
     print "  Consider to add the gardenctl startup script to your shell profile.\n"
     print "  It contains various tweaks, such as setting environment variables, loading completions and adding some helpful aliases or functions.\n"
-    print "  Run `gardenctl rc --help` for more information.\n\n"
+    print "  Run \`gardenctl rc --help\` for more information.\n\n"
   end
 
   test do
