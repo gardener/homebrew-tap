@@ -11,7 +11,7 @@ jobs:
           echo "Darwin amd64 gardenctl-v2 binary hash '${{ github.event.client_payload.darwin_sha_amd64 }}'"
           echo "Darwin arm64 gardenctl-v2 binary hash '${{ github.event.client_payload.darwin_sha_arm64 }}'"
           echo "Linux gardenctl-v2 binary hash '${{ github.event.client_payload.linux_sha_amd64 }}'"
-      - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # pin@v2.4.0
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # pin@v3.3.0
       - name: Run update script
         run:  ./.github/workflows/update-gardenctl-v2.sh ${{ github.event.client_payload.tag }} ${{ github.event.client_payload.darwin_sha_amd64 }} ${{ github.event.client_payload.darwin_sha_arm64 }} ${{ github.event.client_payload.linux_sha_amd64 }}
       - name: Commit files
@@ -35,7 +35,7 @@ jobs:
           echo "Darwin amd64 gardenlogin binary hash '${{ github.event.client_payload.darwin_sha_amd64 }}'"
           echo "Darwin arm64 gardenlogin binary hash '${{ github.event.client_payload.darwin_sha_arm64 }}'"
           echo "Linux gardenlogin binary hash '${{ github.event.client_payload.linux_sha_amd64 }}'"
-      - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # pin@v2.4.0
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # pin@v3.3.0
       - name: Run update script
         run:  ./.github/workflows/update-gardenlogin.sh ${{ github.event.client_payload.tag }} ${{ github.event.client_payload.darwin_sha_amd64 }} ${{ github.event.client_payload.darwin_sha_arm64 }} ${{ github.event.client_payload.linux_sha_amd64 }}
       - name: Commit files
