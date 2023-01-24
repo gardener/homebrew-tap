@@ -21,7 +21,7 @@ jobs:
           git add gardenctl-v2.rb
           git commit -m "Update gardenctl-v2"
       - name: Push changes
-        uses: ad-m/github-push-action@40bf560936a8022e68a3c00e7d2abefaf01305a6 # pin@v0.6.0
+        uses: ad-m/github-push-action@0fafdd62b84042d49ec0cb92d9cac7f7ce4ec79e # pin@master Dec 12, 2022
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           force: false
@@ -45,7 +45,7 @@ jobs:
           git add gardenlogin.rb
           git commit -m "Update gardenlogin"
       - name: Push changes
-        uses: ad-m/github-push-action@40bf560936a8022e68a3c00e7d2abefaf01305a6 # pin@v0.6.0
+        uses: ad-m/github-push-action@0fafdd62b84042d49ec0cb92d9cac7f7ce4ec79e # pin@master Dec 12, 2022
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           force: false
