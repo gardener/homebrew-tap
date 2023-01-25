@@ -11,7 +11,7 @@ jobs:
           echo "Darwin amd64 gardenctl-v2 binary hash '${{ github.event.client_payload.darwin_sha_amd64 }}'"
           echo "Darwin arm64 gardenctl-v2 binary hash '${{ github.event.client_payload.darwin_sha_arm64 }}'"
           echo "Linux gardenctl-v2 binary hash '${{ github.event.client_payload.linux_sha_amd64 }}'"
-      - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # pin@v2.4.0
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # pin@v3.3.0
       - name: Run update script
         run:  ./.github/workflows/update-gardenctl-v2.sh ${{ github.event.client_payload.tag }} ${{ github.event.client_payload.darwin_sha_amd64 }} ${{ github.event.client_payload.darwin_sha_arm64 }} ${{ github.event.client_payload.linux_sha_amd64 }}
       - name: Commit files
@@ -21,7 +21,7 @@ jobs:
           git add gardenctl-v2.rb
           git commit -m "Update gardenctl-v2"
       - name: Push changes
-        uses: ad-m/github-push-action@40bf560936a8022e68a3c00e7d2abefaf01305a6 # pin@v0.6.0
+        uses: ad-m/github-push-action@0fafdd62b84042d49ec0cb92d9cac7f7ce4ec79e # pin@master Dec 12, 2022
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           force: false
@@ -35,7 +35,7 @@ jobs:
           echo "Darwin amd64 gardenlogin binary hash '${{ github.event.client_payload.darwin_sha_amd64 }}'"
           echo "Darwin arm64 gardenlogin binary hash '${{ github.event.client_payload.darwin_sha_arm64 }}'"
           echo "Linux gardenlogin binary hash '${{ github.event.client_payload.linux_sha_amd64 }}'"
-      - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # pin@v2.4.0
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # pin@v3.3.0
       - name: Run update script
         run:  ./.github/workflows/update-gardenlogin.sh ${{ github.event.client_payload.tag }} ${{ github.event.client_payload.darwin_sha_amd64 }} ${{ github.event.client_payload.darwin_sha_arm64 }} ${{ github.event.client_payload.linux_sha_amd64 }}
       - name: Commit files
@@ -45,7 +45,7 @@ jobs:
           git add gardenlogin.rb
           git commit -m "Update gardenlogin"
       - name: Push changes
-        uses: ad-m/github-push-action@40bf560936a8022e68a3c00e7d2abefaf01305a6 # pin@v0.6.0
+        uses: ad-m/github-push-action@0fafdd62b84042d49ec0cb92d9cac7f7ce4ec79e # pin@master Dec 12, 2022
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           force: false
