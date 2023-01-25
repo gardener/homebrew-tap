@@ -19,10 +19,10 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           add-paths: gardenctl-v2.rb
-          committer: gardener-robot-ci-1 <gardener.ci.user@gmail.com>
           branch: update_${{ github.event.client_payload.component }}_${{ github.event.client_payload.tag }}
           delete-branch: true
           title: update ${{ github.event.client_payload.component }} to ${{ github.event.client_payload.tag }}
+          body: This PR updates gardenctl-v2.rb to latest version
       #- name: Commit files
       #  run: |
       #    git config --local user.email "gardener.ci.user@gmail.com"
