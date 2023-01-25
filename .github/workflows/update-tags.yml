@@ -21,7 +21,7 @@ jobs:
           branch: update_${{ github.event.client_payload.component }}_${{ github.event.client_payload.tag }}
           delete-branch: true
           title: update ${{ github.event.client_payload.component }} to ${{ github.event.client_payload.tag }}
-          body: This PR updates gardenctl-v2.rb to the latest version
+          body: This PR updates gardenctl-v2.rb to ${{ github.event.client_payload.tag }}
   update-gardenlogin:
     if: github.event.client_payload.component == 'gardenlogin'
     runs-on: ubuntu-latest
@@ -42,4 +42,4 @@ jobs:
           branch: update_${{ github.event.client_payload.component }}_${{ github.event.client_payload.tag }}
           delete-branch: true
           title: update ${{ github.event.client_payload.component }} to ${{ github.event.client_payload.tag }}
-          body: This PR updates gardenlogin.rb to the latest version
+          body: This PR updates gardenlogin.rb to ${{ github.event.client_payload.tag }}
