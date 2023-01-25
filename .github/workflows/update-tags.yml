@@ -11,6 +11,10 @@ jobs:
           echo "Darwin amd64 gardenctl-v2 binary hash '${{ github.event.client_payload.darwin_sha_amd64 }}'"
           echo "Darwin arm64 gardenctl-v2 binary hash '${{ github.event.client_payload.darwin_sha_arm64 }}'"
           echo "Linux gardenctl-v2 binary hash '${{ github.event.client_payload.linux_sha_amd64 }}'"
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          branch: update {{ github.event.client_payload.component }} to ${{ github.event.client_payload.tag }}
       - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # pin@v3.3.0
       - name: Run update script
         run:  ./.github/workflows/update-gardenctl-v2.sh ${{ github.event.client_payload.tag }} ${{ github.event.client_payload.darwin_sha_amd64 }} ${{ github.event.client_payload.darwin_sha_arm64 }} ${{ github.event.client_payload.linux_sha_amd64 }}
