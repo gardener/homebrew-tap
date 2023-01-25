@@ -17,23 +17,11 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@2b011faafdcbc9ceb11414d64d0573f37c774b04 # pin@v4.2.3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           add-paths: gardenctl-v2.rb
           branch: update_${{ github.event.client_payload.component }}_${{ github.event.client_payload.tag }}
           delete-branch: true
           title: update ${{ github.event.client_payload.component }} to ${{ github.event.client_payload.tag }}
-          body: This PR updates gardenctl-v2.rb to latest version
-      #- name: Commit files
-      #  run: |
-      #    git config --local user.email "gardener.ci.user@gmail.com"
-      #    git config --local user.name "gardener-robot-ci-1"
-      #    git add gardenctl-v2.rb
-      #    git commit -m "Update gardenctl-v2"
-      #- name: Push changes
-      #  uses: ad-m/github-push-action@0fafdd62b84042d49ec0cb92d9cac7f7ce4ec79e # pin@master Dec 12, 2022
-      #  with:
-      #    github_token: ${{ secrets.GITHUB_TOKEN }}
-      #    force: false
+          body: This PR updates gardenctl-v2.rb to the latest version
   update-gardenlogin:
     if: github.event.client_payload.component == 'gardenlogin'
     runs-on: ubuntu-latest
@@ -47,14 +35,11 @@ jobs:
       - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # pin@v3.3.0
       - name: Run update script
         run:  ./.github/workflows/update-gardenlogin.sh ${{ github.event.client_payload.tag }} ${{ github.event.client_payload.darwin_sha_amd64 }} ${{ github.event.client_payload.darwin_sha_arm64 }} ${{ github.event.client_payload.linux_sha_amd64 }}
-      - name: Commit files
-        run: |
-          git config --local user.email "gardener.ci.user@gmail.com"
-          git config --local user.name "gardener-robot-ci-1"
-          git add gardenlogin.rb
-          git commit -m "Update gardenlogin"
-      - name: Push changes
-        uses: ad-m/github-push-action@0fafdd62b84042d49ec0cb92d9cac7f7ce4ec79e # pin@master Dec 12, 2022
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@2b011faafdcbc9ceb11414d64d0573f37c774b04 # pin@v4.2.3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          force: false
+          add-paths: gardenlogin.rb
+          branch: update_${{ github.event.client_payload.component }}_${{ github.event.client_payload.tag }}
+          delete-branch: true
+          title: update ${{ github.event.client_payload.component }} to ${{ github.event.client_payload.tag }}
+          body: This PR updates gardenlogin.rb to the latest version
