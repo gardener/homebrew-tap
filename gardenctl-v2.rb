@@ -4,7 +4,7 @@ class GardenctlV2 < Formula
   version "v3.0.11"
 
   depends_on "gardener/tap/gardenlogin"
-dfdf
+
   if OS.mac?
     if Hardware::CPU.arm?
       url "https://github.com/gardener/gardenctl-v2/releases/download/v3.0.11/gardenctl_v2_darwin_arm64"
