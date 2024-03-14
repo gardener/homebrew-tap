@@ -1,4 +1,5 @@
 # Homebrew Tap
+[![REUSE status](https://api.reuse.software/badge/github.com/gardener/homebrew-tap)](https://api.reuse.software/info/github.com/gardener/homebrew-tap)
 
 Provides tools from `github.com/gardener` via [Homebrew](http://brew.sh/) package.
 
