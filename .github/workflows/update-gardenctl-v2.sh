@@ -40,6 +40,9 @@ echo $linux_sha_arm64
 # Remove the 'v' prefix from the tag if it exists
 version=${tag#v}
 
+# Get the current organization from the environment variable
+org=${GITHUB_REPOSITORY_OWNER}
+
 cat > gardenctl-v2.rb << EOF
 # typed: true
 # frozen_string_literal: true
@@ -54,18 +57,18 @@ class GardenctlV2 < Formula
 
   if OS.mac?
     if Hardware::CPU.arm?
-      url "https://github.com/gardener/gardenctl-v2/releases/download/$tag/gardenctl_v2_darwin_arm64"
+      url "https://github.com/$org/gardenctl-v2/releases/download/$tag/gardenctl_v2_darwin_arm64"
       sha256 "$darwin_sha_arm64"
     else
-      url "https://github.com/gardener/gardenctl-v2/releases/download/$tag/gardenctl_v2_darwin_amd64"
+      url "https://github.com/$org/gardenctl-v2/releases/download/$tag/gardenctl_v2_darwin_amd64"
       sha256 "$darwin_sha_amd64"
     end
   elsif OS.linux?
     if Hardware::CPU.arm?
-      url "https://github.com/gardener/gardenctl-v2/releases/download/$tag/gardenctl_v2_linux_arm64"
+      url "https://github.com/$org/gardenctl-v2/releases/download/$tag/gardenctl_v2_linux_arm64"
       sha256 "$linux_sha_arm64"
     else
-      url "https://github.com/gardener/gardenctl-v2/releases/download/$tag/gardenctl_v2_linux_amd64"
+      url "https://github.com/$org/gardenctl-v2/releases/download/$tag/gardenctl_v2_linux_amd64"
       sha256 "$linux_sha_amd64"
       depends_on arch: :x86_64
     end
