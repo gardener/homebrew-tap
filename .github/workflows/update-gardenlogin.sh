@@ -37,11 +37,18 @@ echo $darwin_sha_arm64
 echo $linux_sha_amd64
 echo $linux_sha_arm64
 
+# Remove the 'v' prefix from the tag if it exists
+version=${tag#v}
+
 cat > gardenlogin.rb << EOF
+# typed: true
+# frozen_string_literal: true
+
+# Gardenlogin is a formula for installing Gardenlogin
 class Gardenlogin < Formula
-  desc "Gardenlogin"
+  desc "Command-line tool for authenticating with Gardener clusters"
   homepage "https://gardener.cloud"
-  version "$tag"
+  version "$version"
 
   if OS.mac?
     if Hardware::CPU.arm?
@@ -58,7 +65,7 @@ class Gardenlogin < Formula
     else
       url "https://github.com/gardener/gardenlogin/releases/download/$tag/gardenlogin_linux_amd64"
       sha256 "$linux_sha_amd64"
-      depends_on :arch => :x86_64
+      depends_on arch: :x86_64
     end
   end
 
@@ -72,5 +79,4 @@ class Gardenlogin < Formula
     system "#{bin}/kubectl-gardenlogin", "version"
   end
 end
-
 EOF
