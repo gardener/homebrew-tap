@@ -37,30 +37,40 @@ echo $darwin_sha_arm64
 echo $linux_sha_amd64
 echo $linux_sha_arm64
 
+# Remove the 'v' prefix from the tag if it exists
+version=${tag#v}
+
+# Get the current organization from the environment variable
+org=${GITHUB_REPOSITORY_OWNER}
+
 cat > gardenctl-v2.rb << EOF
+# typed: true
+# frozen_string_literal: true
+
+# GardenctlV2 is a formula for installing Gardenctl-v2
 class GardenctlV2 < Formula
-  desc "Gardenctl-v2"
+  desc "Command-line tool for managing Gardener clusters"
   homepage "https://gardener.cloud"
-  version "$tag"
+  version "$version"
 
   depends_on "gardener/tap/gardenlogin"
 
   if OS.mac?
     if Hardware::CPU.arm?
-      url "https://github.com/gardener/gardenctl-v2/releases/download/$tag/gardenctl_v2_darwin_arm64"
+      url "https://github.com/$org/gardenctl-v2/releases/download/$tag/gardenctl_v2_darwin_arm64"
       sha256 "$darwin_sha_arm64"
     else
-      url "https://github.com/gardener/gardenctl-v2/releases/download/$tag/gardenctl_v2_darwin_amd64"
+      url "https://github.com/$org/gardenctl-v2/releases/download/$tag/gardenctl_v2_darwin_amd64"
       sha256 "$darwin_sha_amd64"
     end
   elsif OS.linux?
     if Hardware::CPU.arm?
-      url "https://github.com/gardener/gardenctl-v2/releases/download/$tag/gardenctl_v2_linux_arm64"
+      url "https://github.com/$org/gardenctl-v2/releases/download/$tag/gardenctl_v2_linux_arm64"
       sha256 "$linux_sha_arm64"
     else
-      url "https://github.com/gardener/gardenctl-v2/releases/download/$tag/gardenctl_v2_linux_amd64"
+      url "https://github.com/$org/gardenctl-v2/releases/download/$tag/gardenctl_v2_linux_amd64"
       sha256 "$linux_sha_amd64"
-      depends_on :arch => :x86_64
+      depends_on arch: :x86_64
     end
   end
 
@@ -69,7 +79,8 @@ class GardenctlV2 < Formula
 
     print "\n[HINT]\n"
     print "  Consider to add the gardenctl startup script to your shell profile.\n"
-    print "  It contains various tweaks, such as setting environment variables, loading completions and adding some helpful aliases or functions.\n"
+    print "  It contains various tweaks, such as setting environment variables,\n"
+    print "  loading completions and adding some helpful aliases or functions.\n"
     print "  Run \`gardenctl rc --help\` for more information.\n\n"
   end
 
@@ -77,5 +88,4 @@ class GardenctlV2 < Formula
     system "#{bin}/gardenctl", "version"
   end
 end
-
 EOF
