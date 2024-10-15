@@ -12,11 +12,11 @@ jobs:
           echo "Darwin arm64 gardenctl-v2 binary hash '${{ github.event.client_payload.darwin_sha_arm64 }}'"
           echo "Linux amd64 gardenctl-v2 binary hash '${{ github.event.client_payload.linux_sha_amd64 }}'"
           echo "Linux arm64 gardenctl-v2 binary hash '${{ github.event.client_payload.linux_sha_arm64 }}'"
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # pin@v4.1.6
+      - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # pin@v4.2.1
       - name: Run update script
         run:  ./.github/workflows/update-gardenctl-v2.sh ${{ github.event.client_payload.tag }} ${{ github.event.client_payload.darwin_sha_amd64 }} ${{ github.event.client_payload.darwin_sha_arm64 }} ${{ github.event.client_payload.linux_sha_amd64 }} ${{ github.event.client_payload.linux_sha_arm64 }}
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@6d6857d36972b65feb161a90e484f2984215f83e # pin@v6.0.5
+        uses: peter-evans/create-pull-request@5e914681df9dc83aa4e4905692ca88beb2f9e91f # pin@v7.0.5
         with:
           add-paths: gardenctl-v2.rb
           branch: update_${{ github.event.client_payload.component }}_${{ github.event.client_payload.tag }}
@@ -34,11 +34,11 @@ jobs:
           echo "Darwin arm64 gardenlogin binary hash '${{ github.event.client_payload.darwin_sha_arm64 }}'"
           echo "Linux amd64 gardenlogin binary hash '${{ github.event.client_payload.linux_sha_amd64 }}'"
           echo "Linux arm64 gardenlogin binary hash '${{ github.event.client_payload.linux_sha_arm64 }}'"
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # pin@v4.1.6
+      - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # pin@v4.2.1
       - name: Run update script
         run:  ./.github/workflows/update-gardenlogin.sh ${{ github.event.client_payload.tag }} ${{ github.event.client_payload.darwin_sha_amd64 }} ${{ github.event.client_payload.darwin_sha_arm64 }} ${{ github.event.client_payload.linux_sha_amd64 }} ${{ github.event.client_payload.linux_sha_arm64 }}
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@6d6857d36972b65feb161a90e484f2984215f83e # pin@v6.0.5
+        uses: peter-evans/create-pull-request@5e914681df9dc83aa4e4905692ca88beb2f9e91f # pin@v7.0.5
         with:
           add-paths: gardenlogin.rb
           branch: update_${{ github.event.client_payload.component }}_${{ github.event.client_payload.tag }}
