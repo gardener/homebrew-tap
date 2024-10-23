@@ -1,26 +1,30 @@
+# typed: true
+# frozen_string_literal: true
+
+# GardenctlV2 is a formula for installing Gardenctl-v2
 class GardenctlV2 < Formula
-  desc "Gardenctl-v2"
+  desc "Command-line tool for managing Gardener clusters"
   homepage "https://gardener.cloud"
-  version "v2.8.0"
+  version "2.9.0"
 
   depends_on "gardener/tap/gardenlogin"
 
   if OS.mac?
     if Hardware::CPU.arm?
-      url "https://github.com/gardener/gardenctl-v2/releases/download/v2.8.0/gardenctl_v2_darwin_arm64"
-      sha256 "d7c05ed6abb6875b58de3e06a589d910060dcd5bd4f4b1aed919bcac04261000"
+      url "https://github.com/gardener/gardenctl-v2/releases/download/v2.9.0/gardenctl_v2_darwin_arm64"
+      sha256 "ac44451dc8a8128d03da9d9598863b9f190c225844a67b59ec16e2c6208374b8"
     else
-      url "https://github.com/gardener/gardenctl-v2/releases/download/v2.8.0/gardenctl_v2_darwin_amd64"
-      sha256 "b668cf1acd70351efc83e9b5c70c80127315099ce3c796978b7f301206054e84"
+      url "https://github.com/gardener/gardenctl-v2/releases/download/v2.9.0/gardenctl_v2_darwin_amd64"
+      sha256 "4b82f8da2f6c383ac035527777bda399dbd8b66e5f0a2ca7a2c2e59f354e2318"
     end
   elsif OS.linux?
     if Hardware::CPU.arm?
-      url "https://github.com/gardener/gardenctl-v2/releases/download/v2.8.0/gardenctl_v2_linux_arm64"
-      sha256 "40b1f676cdc4314bca5a6a1475135d553bb4ef47d96f38629c658f694b440c21"
+      url "https://github.com/gardener/gardenctl-v2/releases/download/v2.9.0/gardenctl_v2_linux_arm64"
+      sha256 "2594bbb42e4d593d79dda901af298bf12cc653d0ed8cee17e7d0bf1379ef8a5f"
     else
-      url "https://github.com/gardener/gardenctl-v2/releases/download/v2.8.0/gardenctl_v2_linux_amd64"
-      sha256 "71758cee54dc6f8041cd3a59ea84bffff47c409ddddaad4f0059f86836d31fa8"
-      depends_on :arch => :x86_64
+      url "https://github.com/gardener/gardenctl-v2/releases/download/v2.9.0/gardenctl_v2_linux_amd64"
+      sha256 "78a26f0aad25ff8e8e231dfa20031146bfa82062ee8d81b6c3141af7d60b5413"
+      depends_on arch: :x86_64
     end
   end
 
@@ -29,7 +33,8 @@ class GardenctlV2 < Formula
 
     print "\n[HINT]\n"
     print "  Consider to add the gardenctl startup script to your shell profile.\n"
-    print "  It contains various tweaks, such as setting environment variables, loading completions and adding some helpful aliases or functions.\n"
+    print "  It contains various tweaks, such as setting environment variables,\n"
+    print "  loading completions and adding some helpful aliases or functions.\n"
     print "  Run `gardenctl rc --help` for more information.\n\n"
   end
 
@@ -37,4 +42,3 @@ class GardenctlV2 < Formula
     system "#{bin}/gardenctl", "version"
   end
 end
-
