@@ -1,5 +1,9 @@
+# typed: true
+# frozen_string_literal: true
+
+# Gardenlogin is a formula for installing Gardenlogin
 class Gardenlogin < Formula
-  desc "Gardenlogin"
+  desc "Command-line tool for authenticating with Gardener clusters"
   homepage "https://gardener.cloud"
   version "v0.5.1"
 
@@ -18,7 +22,7 @@ class Gardenlogin < Formula
     else
       url "https://github.com/gardener/gardenlogin/releases/download/v0.5.1/gardenlogin_linux_amd64"
       sha256 "dd53c642d49d6285b199f34053943d84c13013d31d84542ad6d1c5309dc63eac"
-      depends_on :arch => :x86_64
+      depends_on arch: :x86_64
     end
   end
 

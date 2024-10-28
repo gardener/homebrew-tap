@@ -5,30 +5,30 @@ darwin_sha_amd64=${2}
 darwin_sha_arm64=${3}
 linux_sha_amd64=${4}
 linux_sha_arm64=${5}
-if [ -z "${1}" ]
-then
-      echo "release tag is not provided"
-      exit 1
+
+if [ -z "${tag}" ]; then
+  echo "release tag is not provided"
+  exit 1
 fi
-if [ -z "${2}" ]
-then
-      echo "darwin amd64 binary sha256sum is not provided"
-      exit 1
+
+if [ -z "${darwin_sha_amd64}" ]; then
+  echo "darwin amd64 binary sha256sum is not provided"
+  exit 1
 fi
-if [ -z "${3}" ]
-then
-      echo "darwin arm64 binary sha256sum is not provided"
-      exit 1
+
+if [ -z "${darwin_sha_arm64}" ]; then
+  echo "darwin arm64 binary sha256sum is not provided"
+  exit 1
 fi
-if [ -z "${4}" ]
-then
-      echo "linux amd64 binary sha256sum is not provided"
-      exit 1
+
+if [ -z "${linux_sha_amd64}" ]; then
+  echo "linux amd64 binary sha256sum is not provided"
+  exit 1
 fi
-if [ -z "${5}" ]
-then
-      echo "linux arm64 binary sha256sum is not provided"
-      exit 1
+
+if [ -z "${linux_sha_arm64}" ]; then
+  echo "linux arm64 binary sha256sum is not provided"
+  exit 1
 fi
 
 echo $tag
