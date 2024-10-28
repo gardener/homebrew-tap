@@ -76,12 +76,16 @@ class GardenctlV2 < Formula
 
   def install
     bin.install stable.url.split("/")[-1] => "gardenctl"
+  end
 
-    print "\n[HINT]\n"
-    print "  Consider to add the gardenctl startup script to your shell profile.\n"
-    print "  It contains various tweaks, such as setting environment variables,\n"
-    print "  loading completions and adding some helpful aliases or functions.\n"
-    print "  Run \`gardenctl rc --help\` for more information.\n\n"
+  def caveats
+    <<~EOS
+      [HINT]
+      Consider adding the gardenctl startup script to your shell profile.
+      It contains various tweaks, such as setting environment variables,
+      loading completions, and adding some helpful aliases or functions.
+      Run \`gardenctl rc --help\` for more information.
+    EOS
   end
 
   test do
