@@ -27,6 +27,14 @@ class Gardenlogin < Formula
     bin.install_symlink bin/"gardenlogin" => "kubectl-gardenlogin"
   end
 
+  def caveats
+    <<~EOS
+      If you are using an OIDC kubeconfig, you may need to install 'kubelogin'.
+      You can install it manually by running:
+        brew install int128/kubelogin/kubelogin
+    EOS
+  end
+
   test do
     system "#{bin}/gardenlogin", "version"
     system "#{bin}/kubectl-gardenlogin", "version"
