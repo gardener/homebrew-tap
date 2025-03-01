@@ -16,7 +16,7 @@ jobs:
       - name: Run update script
         run:  ./.github/workflows/update-gardenctl-v2.sh ${{ github.event.client_payload.tag }} ${{ github.event.client_payload.darwin_sha_amd64 }} ${{ github.event.client_payload.darwin_sha_arm64 }} ${{ github.event.client_payload.linux_sha_amd64 }} ${{ github.event.client_payload.linux_sha_arm64 }}
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f # pin@v7.0.6
+        uses: peter-evans/create-pull-request@dd2324fc52d5d43c699a5636bcf19fceaa70c284 # pin@v7.0.7
         with:
           add-paths: gardenctl-v2.rb
           branch: update_${{ github.event.client_payload.component }}_${{ github.event.client_payload.tag }}
@@ -38,7 +38,7 @@ jobs:
       - name: Run update script
         run:  ./.github/workflows/update-gardenlogin.sh ${{ github.event.client_payload.tag }} ${{ github.event.client_payload.darwin_sha_amd64 }} ${{ github.event.client_payload.darwin_sha_arm64 }} ${{ github.event.client_payload.linux_sha_amd64 }} ${{ github.event.client_payload.linux_sha_arm64 }}
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f # pin@v7.0.6
+        uses: peter-evans/create-pull-request@dd2324fc52d5d43c699a5636bcf19fceaa70c284 # pin@v7.0.7
         with:
           add-paths: gardenlogin.rb
           branch: update_${{ github.event.client_payload.component }}_${{ github.event.client_payload.tag }}
