@@ -45,3 +45,25 @@ jobs:
           delete-branch: true
           title: update ${{ github.event.client_payload.component }} to ${{ github.event.client_payload.tag }}
           body: This PR updates gardenlogin.rb to ${{ github.event.client_payload.tag }}
+  update-diki:
+    if: github.event.client_payload.component == 'diki'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Event Information
+        run: |
+          echo "Event '${{ github.event.action }}' payload '${{ github.event.client_payload.tag }}'"
+          echo "Darwin amd64 diki binary hash '${{ github.event.client_payload.darwin_sha_amd64 }}'"
+          echo "Darwin arm64 diki binary hash '${{ github.event.client_payload.darwin_sha_arm64 }}'"
+          echo "Linux amd64 diki binary hash '${{ github.event.client_payload.linux_sha_amd64 }}'"
+          echo "Linux arm64 diki binary hash '${{ github.event.client_payload.linux_sha_arm64 }}'"
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # pin@v4.2.2
+      - name: Run update script
+        run:  ./.github/workflows/update-diki.sh ${{ github.event.client_payload.tag }} ${{ github.event.client_payload.darwin_sha_amd64 }} ${{ github.event.client_payload.darwin_sha_arm64 }} ${{ github.event.client_payload.linux_sha_amd64 }} ${{ github.event.client_payload.linux_sha_arm64 }}
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f # pin@v7.0.6
+        with:
+          add-paths: diki.rb
+          branch: update_${{ github.event.client_payload.component }}_${{ github.event.client_payload.tag }}
+          delete-branch: true
+          title: update ${{ github.event.client_payload.component }} to ${{ github.event.client_payload.tag }}
+          body: This PR updates diki.rb to ${{ github.event.client_payload.tag }}
