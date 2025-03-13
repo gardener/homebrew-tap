@@ -30,6 +30,8 @@ class GardenctlV2 < Formula
 
   def install
     bin.install stable.url.split("/")[-1] => "gardenctl"
+
+    generate_completions_from_executable(bin/"gardenctl", "completion")
   end
 
   def caveats
