@@ -33,8 +33,7 @@ class Diki < Formula
   def caveats
     <<~EOS
       [HINT]
-      Run `diki view provider` to view supported providers and rulesets.
-      Run `diki --help` for more information.
+      Run `diki --help` for more information or find out more at https://github.com/gardener/diki.
     EOS
   end
 
