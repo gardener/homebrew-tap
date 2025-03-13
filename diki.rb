@@ -5,7 +5,7 @@
 class Diki < Formula
   desc "Command-line tool for compliance checks"
   homepage "https://gardener.cloud"
-  version "$version"
+  version "0.14.0"
 
   if OS.mac?
     if Hardware::CPU.arm?
@@ -33,8 +33,8 @@ class Diki < Formula
   def caveats
     <<~EOS
       [HINT]
-      Run \`diki view provider\` to view supported providers and rulesets.
-      Run \`diki --help\` for more information.
+      Run `diki view provider` to view supported providers and rulesets.
+      Run `diki --help` for more information.
     EOS
   end
 
