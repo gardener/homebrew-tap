@@ -1,4 +1,6 @@
 name: Remote Dispatch Action
+permissions:
+  contents: write
 on: [repository_dispatch]
 jobs:
   update-gardenctl-v2:
