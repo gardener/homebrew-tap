@@ -1,7 +1,7 @@
 name: Remote Dispatch Action
 
 permissions:
-  contents: write           # needed for the PR branch + commit
+  pull-requests: write
 
 # ──────────────────────────────── TRIGGERS ────────────────────────────────
 on:
