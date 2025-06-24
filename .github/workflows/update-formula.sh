@@ -3,10 +3,16 @@ set -euo pipefail
 
 component=$1         # gardenlogin | gardenctl-v2 | diki
 tag=$2
-darwin_sha_amd64=$3
-darwin_sha_arm64=$4
-linux_sha_amd64=$5
-linux_sha_arm64=$6
+dummy_sha=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 # if not provided (testing purposes), use dummy sha256
+
+darwin_sha_amd64=${3:-$dummy_sha}
+darwin_sha_arm64=${4:-$dummy_sha}
+linux_sha_amd64=${5:-$dummy_sha}
+linux_sha_arm64=${6:-$dummy_sha}
+
+# required params
+[[ -z "$component" || -z "$tag" ]] && {
+  echo "component and tag are required" ; exit 1 ; }
 
 for v in "$component" "$tag" "$darwin_sha_amd64" "$darwin_sha_arm64" \
          "$linux_sha_amd64" "$linux_sha_arm64"; do

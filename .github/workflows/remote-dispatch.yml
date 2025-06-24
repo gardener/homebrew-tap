@@ -1,42 +1,107 @@
 name: Remote Dispatch Action
-permissions:
-  contents: write
 
+permissions:
+  contents: write           # needed for the PR branch + commit
+
+# ──────────────────────────────── TRIGGERS ────────────────────────────────
 on:
+  # automatic calls from other repos
   repository_dispatch:
 
+  # manual “Run workflow” button
+  workflow_dispatch:
+    inputs:
+      component:
+        description: 'Component (gardenlogin | gardenctl-v2 | diki …)'
+        required: true
+        type: string
+      tag:
+        description: 'Version / tag (e.g. v1.4.0)'
+        required: true
+        type: string
+      darwin_sha_amd64:
+        description: 'Optional sha256 for darwin-amd64, if not provided dummy sha will be used'
+        required: false
+        type: string
+      darwin_sha_arm64:
+        description: 'Optional sha256 for darwin-arm64, if not provided dummy sha will be used'
+        required: false
+        type: string
+      linux_sha_amd64:
+        description: 'Optional sha256 for linux-amd64, if not provided dummy sha will be used'
+        required: false
+        type: string
+      linux_sha_arm64:
+        description: 'Optional sha256 for linux-arm64, if not provided dummy sha will be used'
+        required: false
+        type: string
+
+# ───────────────────────────────── JOBS ───────────────────────────────────
 jobs:
   update-formula:
     runs-on: ubuntu-latest
-    # --- matrix has exactly ONE row: the component from the payload -----------
+
+    # Matrix collapses to ONE row: the component we got via event or input
     strategy:
       matrix:
-        component: [${{ github.event.client_payload.component }}]
+        component:
+          - ${{ github.event_name == 'repository_dispatch'
+               && github.event.client_payload.component
+               || inputs.component }}
 
+    # -------- shared environment values (event-specific fall-backs) ---------
     env:
-      TAG:            ${{ github.event.client_payload.tag }}
-      DARWIN_SHA_AMD64: ${{ github.event.client_payload.darwin_sha_amd64 }}
-      DARWIN_SHA_ARM64: ${{ github.event.client_payload.darwin_sha_arm64 }}
-      LINUX_SHA_AMD64:  ${{ github.event.client_payload.linux_sha_amd64 }}
-      LINUX_SHA_ARM64:  ${{ github.event.client_payload.linux_sha_arm64 }}
+      TAG: >-
+        ${{ github.event_name == 'repository_dispatch'
+            && github.event.client_payload.tag
+            || inputs.tag }}
+
+      DARWIN_SHA_AMD64: >-
+        ${{ github.event_name == 'repository_dispatch'
+            && github.event.client_payload.darwin_sha_amd64
+            || inputs.darwin_sha_amd64 }}
+
+      DARWIN_SHA_ARM64: >-
+        ${{ github.event_name == 'repository_dispatch'
+            && github.event.client_payload.darwin_sha_arm64
+            || inputs.darwin_sha_arm64 }}
+
+      LINUX_SHA_AMD64: >-
+        ${{ github.event_name == 'repository_dispatch'
+            && github.event.client_payload.linux_sha_amd64
+            || inputs.linux_sha_amd64 }}
+
+      LINUX_SHA_ARM64: >-
+        ${{ github.event_name == 'repository_dispatch'
+            && github.event.client_payload.linux_sha_arm64
+            || inputs.linux_sha_arm64 }}
 
     steps:
+      # ─────────────── show what we received / entered ───────────────
       - name: Event summary
         run: |
-          echo "Component : ${{ matrix.component }}"
-          echo "Version   : $TAG"
+          echo "Triggered by : ${{ github.event_name }}"
+          echo "Component    : ${{ matrix.component }}"
+          echo "Version tag  : $TAG"
+          echo "darwin-amd64 : $DARWIN_SHA_AMD64"
+          echo "darwin-arm64 : $DARWIN_SHA_ARM64"
+          echo "linux-amd64  : $LINUX_SHA_AMD64"
+          echo "linux-arm64  : $LINUX_SHA_ARM64"
 
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+      # ──────────────────── repo checkout (pinned) ───────────────────
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683   # v4.2.2
 
-      - name: Generate / update formula
+      # ─────────────────── generate/update formula ───────────────────
+      - name: Run generic update script
         run: |
           chmod +x .github/workflows/update-formula.sh
           .github/workflows/update-formula.sh \
-              "${{ matrix.component }}" \
-              "$TAG" \
-              "$DARWIN_SHA_AMD64" "$DARWIN_SHA_ARM64" \
-              "$LINUX_SHA_AMD64"  "$LINUX_SHA_ARM64"
+            "${{ matrix.component }}" \
+            "$TAG" \
+            "$DARWIN_SHA_AMD64" "$DARWIN_SHA_ARM64" \
+            "$LINUX_SHA_AMD64"  "$LINUX_SHA_ARM64"
 
+      # ───────────────────── create pull request ─────────────────────
       - name: Create pull request
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
