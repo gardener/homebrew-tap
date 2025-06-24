@@ -1,0 +1,49 @@
+name: Remote Dispatch Action
+permissions:
+  contents: write
+
+on:
+  repository_dispatch:
+
+jobs:
+  update-formula:
+    runs-on: ubuntu-latest
+    # --- matrix has exactly ONE row: the component from the payload -----------
+    strategy:
+      matrix:
+        component: [${{ github.event.client_payload.component }}]
+
+    env:
+      TAG:            ${{ github.event.client_payload.tag }}
+      DARWIN_SHA_AMD64: ${{ github.event.client_payload.darwin_sha_amd64 }}
+      DARWIN_SHA_ARM64: ${{ github.event.client_payload.darwin_sha_arm64 }}
+      LINUX_SHA_AMD64:  ${{ github.event.client_payload.linux_sha_amd64 }}
+      LINUX_SHA_ARM64:  ${{ github.event.client_payload.linux_sha_arm64 }}
+
+    steps:
+      - name: Event summary
+        run: |
+          echo "Component : ${{ matrix.component }}"
+          echo "Version   : $TAG"
+
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+
+      - name: Generate / update formula
+        run: |
+          chmod +x .github/workflows/update-formula.sh
+          .github/workflows/update-formula.sh \
+              "${{ matrix.component }}" \
+              "$TAG" \
+              "$DARWIN_SHA_AMD64" "$DARWIN_SHA_ARM64" \
+              "$LINUX_SHA_AMD64"  "$LINUX_SHA_ARM64"
+
+      - name: Create pull request
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          branch="update_${{ matrix.component }}_${TAG}"
+          git switch -c "$branch"
+          git add "${{ matrix.component }}.rb"
+          git commit -m "update ${{ matrix.component }} to $TAG"
+          git push -u origin "$branch"
+          gh pr create --fill --head "$branch" --base "${{ github.event.repository.default_branch }}"
