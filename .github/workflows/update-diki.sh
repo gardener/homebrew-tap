@@ -11,4 +11,4 @@ LINUX_SHA_ARM64=${5:-$empty_sha}
 
 desc="Command-line tool for compliance checks"
 
-render_formula "$component" "$tag" "$desc" "" "" ""
+render_formula "$component" "$tag" "$desc" "" "" "" ""

@@ -17,4 +17,4 @@ caveats=$(cat <<'EOS'
 EOS
 )
 
-render_formula "$component" "$tag" "$desc" "$extra_dep" "" "$caveats"
+render_formula "$component" "$tag" "$desc" "$extra_dep" "" "$caveats" ""
