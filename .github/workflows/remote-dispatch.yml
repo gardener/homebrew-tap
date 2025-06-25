@@ -1,6 +1,7 @@
 name: Remote Dispatch Action
 
 permissions:
+  contents: write
   pull-requests: write
 
 # ──────────────────────────────── TRIGGERS ────────────────────────────────
