@@ -93,11 +93,11 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683   # v4.2.2
 
       # ─────────────────── generate/update formula ───────────────────
-      - name: Run generic update script
+      - name: Run component-specific update script
         run: |
-          chmod +x .github/workflows/update-formula.sh
-          .github/workflows/update-formula.sh \
-            "${{ matrix.component }}" \
+          script=".github/workflows/update-${{ matrix.component }}.sh"
+          chmod +x "$script"
+          "$script" \
             "$TAG" \
             "$DARWIN_SHA_AMD64" "$DARWIN_SHA_ARM64" \
             "$LINUX_SHA_AMD64"  "$LINUX_SHA_ARM64"
