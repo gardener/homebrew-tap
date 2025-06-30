@@ -115,4 +115,8 @@ jobs:
           git add "${{ matrix.component }}.rb"
           git commit -m "update ${{ matrix.component }} to $TAG"
           git push -u origin "$branch"
-          gh pr create --fill --head "$branch" --base "${{ github.event.repository.default_branch }}"
+          gh pr create \
+            --head "$branch" \
+            --base "${{ github.event.repository.default_branch }}"
+            --title "update ${{ matrix.component }} to ${{ env.TAG }}" \
+            --body  "Updates Chocolatey package for **${{ matrix.component }}** (${{ env.TAG }})."
