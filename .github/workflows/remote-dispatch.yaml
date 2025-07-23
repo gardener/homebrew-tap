@@ -100,7 +100,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          branch="update_$COMPONENT_${TAG}"
+          branch="update_${COMPONENT}_${TAG}"
           git switch -c "$branch"
           git add "$COMPONENT.rb"
           git commit -m "update $COMPONENT to $TAG"
