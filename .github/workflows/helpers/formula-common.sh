@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-empty_sha=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+empty_sha="dummySHA256sum"
 
 pascal_case() {                       # gardenctl-v2 → GardenctlV2
   IFS='-' read -ra parts <<<"$1"; local out=""; for p in "${parts[@]}"; do
