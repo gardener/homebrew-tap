@@ -43,8 +43,8 @@ ${extra_dep}
   end
 
   def install
-    bin.install stable.url.split("/")[-1] => "gardenlogin"
-${extra_install}
+    bin.install stable.url.split("/")[-1] => "${component%%-*}'"
+${extra_install:+"    $extra_install"}
   end
 EOF
 
@@ -60,7 +60,7 @@ EOF
   cat >> "${component}.rb" <<EOF
 
   test do
-${extra_tests:-    system bin/"${component%%-*}", "--version"}
+${extra_tests:-'    system "#{bin}/'${component%%-*}'", "version"'}
   end
 end
 EOF
