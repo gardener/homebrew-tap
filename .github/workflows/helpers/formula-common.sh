@@ -43,7 +43,7 @@ ${extra_dep}
   end
 
   def install
-    bin.install stable.url.split("/").last => "${component%%-*}"
+    bin.install stable.url.split("/")[-1] => "gardenlogin"
 ${extra_install}
   end
 EOF
