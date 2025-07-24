@@ -60,7 +60,7 @@ EOF
   cat >> "${component}.rb" <<EOF
 
   test do
-${extra_tests:-    system "#{bin}/${component%%-*}", "version"}
+${extra_tests:-    system bin/"${component%%-*}", "--version"}
   end
 end
 EOF

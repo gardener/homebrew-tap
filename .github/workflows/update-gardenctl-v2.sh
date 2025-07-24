@@ -12,7 +12,10 @@ linux_sha_arm64=${5:-$empty_sha}
 desc="Command-line tool for managing Gardener clusters"
 extra_dep='  depends_on "gardener/tap/gardenlogin"'
 caveats=$(cat <<'EOS'
+      [HINT]
       Consider adding the gardenctl startup script to your shell profile.
+      It contains various tweaks, such as setting environment variables,
+      loading completions, and adding some helpful aliases or functions.
       Run `gardenctl rc --help` for more information.
 EOS
 )
