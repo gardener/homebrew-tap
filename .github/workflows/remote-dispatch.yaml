@@ -1,4 +1,4 @@
-name: Remote Dispatch Action
+name: Update Homebrew Formula
 
 permissions:
   contents: write
