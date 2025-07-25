@@ -50,10 +50,10 @@ jobs:
     env:
       TAG: ${{ inputs.tag || github.event.client_payload.tag }}
       COMPONENT: ${{ inputs.component || github.event.client_payload.component }}
-      DARWIN_SHA_AMD64: ${{ inputs.darwin_sha_amd64 || github.event.client_payload.darwin_sha_amd64 }}
-      DARWIN_SHA_ARM64: ${{ inputs.darwin_sha_arm64 || github.event.client_payload.darwin_sha_arm64 }}
-      LINUX_SHA_AMD64: ${{ inputs.linux_sha_amd64 || github.event.client_payload.linux_sha_amd64 }}
-      LINUX_SHA_ARM64: ${{ inputs.linux_sha_arm64 || github.event.client_payload.linux_sha_arm64 }}
+      DARWIN_SHA_AMD64: ${{ inputs.darwin_sha_amd64 || github.event.client_payload.darwin_sha_amd64 || 'dummySHA256sum' }}
+      DARWIN_SHA_ARM64: ${{ inputs.darwin_sha_arm64 || github.event.client_payload.darwin_sha_arm64 || 'dummySHA256sum' }}
+      LINUX_SHA_AMD64: ${{ inputs.linux_sha_amd64 || github.event.client_payload.linux_sha_amd64 || 'dummySHA256sum' }}
+      LINUX_SHA_ARM64: ${{ inputs.linux_sha_arm64 || github.event.client_payload.linux_sha_arm64 || 'dummySHA256sum' }}
 
     steps:
       # ──────────────── ensure valid component name ─────────────────
