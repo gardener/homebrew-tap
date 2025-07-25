@@ -1,0 +1,112 @@
+name: Update Homebrew Formula
+
+permissions:
+  contents: write
+  pull-requests: write
+
+# ──────────────────────────────── TRIGGERS ────────────────────────────────
+on:
+  # automatic calls from other repos
+  repository_dispatch:
+
+  # manual “Run workflow” button
+  workflow_dispatch:
+    inputs:
+      component:
+        description: 'Component'
+        required: true
+        type: choice
+        options:
+          - gardenlogin
+          - gardenctl-v2
+          - diki
+      tag:
+        description: 'Version / tag (e.g. v1.4.0)'
+        required: true
+        type: string
+      darwin_sha_amd64:
+        description: 'Optional sha256 for darwin-amd64, if not provided dummy sha will be used'
+        required: false
+        type: string
+      darwin_sha_arm64:
+        description: 'Optional sha256 for darwin-arm64, if not provided dummy sha will be used'
+        required: false
+        type: string
+      linux_sha_amd64:
+        description: 'Optional sha256 for linux-amd64, if not provided dummy sha will be used'
+        required: false
+        type: string
+      linux_sha_arm64:
+        description: 'Optional sha256 for linux-arm64, if not provided dummy sha will be used'
+        required: false
+        type: string
+
+# ───────────────────────────────── JOBS ───────────────────────────────────
+jobs:
+  update-formula:
+    runs-on: ubuntu-latest
+
+    # -------- shared environment values (event-specific fall-backs) ---------
+    env:
+      TAG: ${{ inputs.tag || github.event.client_payload.tag }}
+      COMPONENT: ${{ inputs.component || github.event.client_payload.component }}
+      DARWIN_SHA_AMD64: ${{ inputs.darwin_sha_amd64 || github.event.client_payload.darwin_sha_amd64 || 'dummySHA256sum' }}
+      DARWIN_SHA_ARM64: ${{ inputs.darwin_sha_arm64 || github.event.client_payload.darwin_sha_arm64 || 'dummySHA256sum' }}
+      LINUX_SHA_AMD64: ${{ inputs.linux_sha_amd64 || github.event.client_payload.linux_sha_amd64 || 'dummySHA256sum' }}
+      LINUX_SHA_ARM64: ${{ inputs.linux_sha_arm64 || github.event.client_payload.linux_sha_arm64 || 'dummySHA256sum' }}
+
+    steps:
+      # ──────────────── ensure valid component name ─────────────────
+      - name: Validate component
+        run: |
+          case "$COMPONENT" in
+            gardenlogin|gardenctl-v2|diki) ;;
+            *)
+              echo "Error: Invalid component '$COMPONENT'"
+              exit 1
+              ;;
+          esac
+
+      # ─────────────── show what we received / entered ───────────────
+      - name: Event summary
+        run: |
+          echo "Triggered by : ${{ github.event_name }}"
+          echo "Component    : $COMPONENT"
+          echo "Version tag  : $TAG"
+          echo "darwin-amd64 : $DARWIN_SHA_AMD64"
+          echo "darwin-arm64 : $DARWIN_SHA_ARM64"
+          echo "linux-amd64  : $LINUX_SHA_AMD64"
+          echo "linux-arm64  : $LINUX_SHA_ARM64"
+
+      # ──────────────────── repo checkout (pinned) ───────────────────
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683   # v4.2.2
+
+      # ─────────────────── generate/update formula ───────────────────
+      - name: Run component-specific update script
+        run: |
+          script=".github/workflows/update-$COMPONENT.sh"
+          chmod +x "$script"
+          "$script" \
+            "$TAG" \
+            "$DARWIN_SHA_AMD64" "$DARWIN_SHA_ARM64" \
+            "$LINUX_SHA_AMD64"  "$LINUX_SHA_ARM64"
+      
+      # ───────────────────────── git identity ────────────────────────
+      - name: Setup Git Identity
+        uses: gardener/cc-utils/.github/actions/setup-git-identity@master
+
+      # ───────────────────── create pull request ─────────────────────
+      - name: Create pull request
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          branch="update_${COMPONENT}_${TAG}"
+          git switch -c "$branch"
+          git add "$COMPONENT.rb"
+          git commit -m "update $COMPONENT to $TAG"
+          git push -u origin "$branch"
+          gh pr create \
+            --head "$branch" \
+            --base "${{ github.event.repository.default_branch }}" \
+            --title "update $COMPONENT to ${{ env.TAG }}" \
+            --body  "Updates Homebrew Formula for **$COMPONENT** (${{ env.TAG }})."
