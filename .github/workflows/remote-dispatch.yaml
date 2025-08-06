@@ -90,7 +90,7 @@ jobs:
             "$TAG" \
             "$DARWIN_SHA_AMD64" "$DARWIN_SHA_ARM64" \
             "$LINUX_SHA_AMD64"  "$LINUX_SHA_ARM64"
-      
+
       # ───────────────────────── git identity ────────────────────────
       - name: Setup Git Identity
         uses: gardener/cc-utils/.github/actions/setup-git-identity@master
