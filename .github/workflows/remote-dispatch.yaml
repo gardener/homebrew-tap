@@ -96,7 +96,7 @@ jobs:
         uses: gardener/cc-utils/.github/actions/setup-git-identity@master
 
       # ───────────────────── create pull request ─────────────────────
-      - uses: actions/create-github-app-token@v2
+      - uses: actions/create-github-app-token@df432ceedc7162793a195dd1713ff69aefc7379e   # v2.0.6
         id: token
         with:
           app-id: ${{ vars.GARDENER_GITHUB_ACTIONS_APP_ID }}
