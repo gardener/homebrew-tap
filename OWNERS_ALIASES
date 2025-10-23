@@ -1,0 +1,17 @@
+# See the OWNERS docs at https://go.k8s.io/owners
+
+aliases:
+  homebrew-tap-reviewers:
+  - DockToFuture
+  - grolu
+  - klocke-io
+  - neo-liang-sap
+  - petersutter
+  - vasu1124
+  homebrew-tap-approvers:
+  - DockToFuture
+  - grolu
+  - klocke-io
+  - neo-liang-sap
+  - petersutter
+  - vasu1124
