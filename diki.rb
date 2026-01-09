@@ -5,23 +5,23 @@
 class Diki < Formula
   desc "Command-line tool for compliance checks"
   homepage "https://gardener.cloud"
-  version "0.22.0"
+  version "0.23.0"
 
   if OS.mac?
     if Hardware::CPU.arm?
-      url "https://github.com/gardener/diki/releases/download/v0.22.0/diki-darwin-arm64"
-      sha256 "2cc691db4d686afa1bee93cf6d93889b6dcabfd66d618792bedead8cca78a318"
+      url "https://github.com/gardener/diki/releases/download/v0.23.0/diki-darwin-arm64"
+      sha256 "203d8865562c72584c9f67ea62bbeb93c4014b1d508146662d3307ef922db6c0"
     else
-      url "https://github.com/gardener/diki/releases/download/v0.22.0/diki-darwin-amd64"
-      sha256 "0f03902f49a4444fb95028dd992f4a76a17844ee2813be4129778995d96cc1e3"
+      url "https://github.com/gardener/diki/releases/download/v0.23.0/diki-darwin-amd64"
+      sha256 "bc0f7a2d49fa81dcc444f4674e939c76f87e3ea0b46fe7e5d770fb3850a2cc92"
     end
   elsif OS.linux?
     if Hardware::CPU.arm?
-      url "https://github.com/gardener/diki/releases/download/v0.22.0/diki-linux-arm64"
-      sha256 "f1bec3eeed557e715e7282799bb329c4d74f9773192850bfcb36189c772b5176"
+      url "https://github.com/gardener/diki/releases/download/v0.23.0/diki-linux-arm64"
+      sha256 "925e2d7fa941e77d0f46b580b49e3817d1f02b1e0d0a4f0d7ad25989a73171ba"
     else
-      url "https://github.com/gardener/diki/releases/download/v0.22.0/diki-linux-amd64"
-      sha256 "9426746b94e1f013f1ca89c765c449a8988821116ff7497d3a81b89beeb4e476"
+      url "https://github.com/gardener/diki/releases/download/v0.23.0/diki-linux-amd64"
+      sha256 "e69cce2c807a6692bcfeb3dd787df23b51848f67161de919fa45dd0f16481724"
       depends_on arch: :x86_64
     end
   end
