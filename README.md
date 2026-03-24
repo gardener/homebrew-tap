@@ -12,4 +12,8 @@ $ brew install gardenctl-v2
 
 ## Development
 
-https://github.com/Homebrew/brew/blob/master/docs/How-to-Create-and-Maintain-a-Tap.md
+For maintainer guidance, formula automation details, and manual update instructions, see the
+[developer documentation in `CONTRIBUTING.md`](./CONTRIBUTING.md).
+
+For general Homebrew tap guidance, see
+[How to Create and Maintain a Tap](https://github.com/Homebrew/brew/blob/master/docs/How-to-Create-and-Maintain-a-Tap.md).
