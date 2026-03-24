@@ -65,7 +65,7 @@ If the automatic trigger didn’t run, failed for any reason, or you need to rec
    - `linux_sha_arm64`
 7. Run the workflow. It will generate the formula update and open a pull request.
 
-### How to obtain the required hashes
+#### How to obtain the required hashes
 
 The required SHA256 digests can be taken from the build workflow in the source repository for the
 corresponding release.
