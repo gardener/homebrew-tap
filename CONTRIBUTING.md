@@ -56,13 +56,13 @@ If the automatic trigger didn’t run, failed for any reason, or you need to rec
 1. Open the GitHub Actions page for this repository.
 2. Select the **Update Homebrew Formula** workflow.
 3. Click **Run workflow**.
-4. Choose the `component` you want to update.
-5. Enter the release `tag`.
-6. Provide the SHA256 values for:
-   - `darwin_sha_amd64`
-   - `darwin_sha_arm64`
-   - `linux_sha_amd64`
-   - `linux_sha_arm64`
+4. In **Component**, choose the component you want to update.
+5. In **Version / tag (e.g. v1.4.0)**, enter the release tag.
+6. Provide the SHA256 values in:
+   - **Provide sha256 for darwin-amd64**
+   - **Provide sha256 for darwin-arm64**
+   - **Provide sha256 for linux-amd64**
+   - **Provide sha256 for linux-arm64**
 7. Run the workflow. It will generate the formula update and open a pull request.
 
 #### How to obtain the required hashes
