@@ -2,16 +2,10 @@
 
 aliases:
   homebrew-tap-reviewers:
-  - DockToFuture
   - grolu
-  - klocke-io
-  - neo-liang-sap
   - petersutter
-  - vasu1124
+  - AleksandarSavchev
   homebrew-tap-approvers:
-  - DockToFuture
   - grolu
-  - klocke-io
-  - neo-liang-sap
   - petersutter
-  - vasu1124
+  - AleksandarSavchev
