@@ -80,6 +80,8 @@ jobs:
 
       # ──────────────────── repo checkout (pinned) ───────────────────
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2
+        with:
+          persist-credentials: false
 
       # ─────────────────── generate/update formula ───────────────────
       - name: Run component-specific update script
@@ -105,13 +107,28 @@ jobs:
             pull-requests: write
       - name: Create pull request
         env:
+          GIT_PUSH_TOKEN: ${{ github.token }}
           GITHUB_TOKEN: ${{ steps.token.outputs.token }}
         run: |
+          BASIC_AUTH="$(printf 'x-access-token:%s' "$GIT_PUSH_TOKEN" | base64 | tr -d '\n')"
+          AUTH_HEADER="AUTHORIZATION: basic $BASIC_AUTH"
+
+          echo "::add-mask::$GIT_PUSH_TOKEN"
+          echo "::add-mask::$BASIC_AUTH"
+          echo "::add-mask::$AUTH_HEADER"
+
+          git_with_auth() {
+            GIT_CONFIG_COUNT=1 \
+            GIT_CONFIG_KEY_0="http.https://github.com/.extraheader" \
+            GIT_CONFIG_VALUE_0="$AUTH_HEADER" \
+            git "$@"
+          }
+
           branch="update_${COMPONENT}_${TAG}"
           git switch -c "$branch"
           git add "$COMPONENT.rb"
           git commit -m "update $COMPONENT to $TAG"
-          git push -u origin "$branch"
+          git_with_auth push -u origin "$branch"
           gh pr create \
             --head "$branch" \
             --base "${{ github.event.repository.default_branch }}" \
