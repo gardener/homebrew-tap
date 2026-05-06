@@ -69,8 +69,10 @@ jobs:
 
       # ─────────────── show what we received / entered ───────────────
       - name: Event summary
+        env:
+          EVENT_NAME: ${{ github.event_name }}
         run: |
-          echo "Triggered by : ${{ github.event_name }}"
+          echo "Triggered by : $EVENT_NAME"
           echo "Component    : $COMPONENT"
           echo "Version tag  : $TAG"
           echo "darwin-amd64 : $DARWIN_SHA_AMD64"
@@ -109,6 +111,7 @@ jobs:
         env:
           GIT_PUSH_TOKEN: ${{ github.token }}
           GITHUB_TOKEN: ${{ steps.token.outputs.token }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
           BASIC_AUTH="$(printf 'x-access-token:%s' "$GIT_PUSH_TOKEN" | base64 | tr -d '\n')"
           AUTH_HEADER="AUTHORIZATION: basic $BASIC_AUTH"
@@ -131,6 +134,6 @@ jobs:
           git_with_auth push -u origin "$branch"
           gh pr create \
             --head "$branch" \
-            --base "${{ github.event.repository.default_branch }}" \
-            --title "update $COMPONENT to ${{ env.TAG }}" \
-            --body  "Updates Homebrew Formula for **$COMPONENT** (${{ env.TAG }})."
+            --base "$DEFAULT_BRANCH" \
+            --title "update $COMPONENT to $TAG" \
+            --body  "Updates Homebrew Formula for **$COMPONENT** ($TAG)."
