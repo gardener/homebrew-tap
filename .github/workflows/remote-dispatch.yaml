@@ -56,8 +56,8 @@ jobs:
       LINUX_SHA_ARM64: ${{ inputs.linux_sha_arm64 || github.event.client_payload.linux_sha_arm64 }}
 
     steps:
-      # ──────────────── ensure valid component name ─────────────────
-      - name: Validate component
+      # ──────────────── validate inputs ──────────────────────────────
+      - name: Validate inputs
         run: |
           case "$COMPONENT" in
             gardenlogin|gardenctl-v2|diki) ;;
@@ -66,6 +66,18 @@ jobs:
               exit 1
               ;;
           esac
+
+          if ! echo "$TAG" | grep -qE '^v?[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.]+)?$'; then
+            echo "Error: Invalid tag '$TAG'"
+            exit 1
+          fi
+
+          for sha_val in "$DARWIN_SHA_AMD64" "$DARWIN_SHA_ARM64" "$LINUX_SHA_AMD64" "$LINUX_SHA_ARM64"; do
+            if ! echo "$sha_val" | grep -qE '^[0-9a-f]{64}$'; then
+              echo "Error: Invalid SHA256: '$sha_val'"
+              exit 1
+            fi
+          done
 
       # ─────────────── show what we received / entered ───────────────
       - name: Event summary
