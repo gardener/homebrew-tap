@@ -97,10 +97,10 @@ jobs:
 
       # ───────────────────────── git identity ────────────────────────
       - name: Setup Git Identity
-        uses: gardener/cc-utils/.github/actions/setup-git-identity@v1
+        uses: gardener/cc-utils/.github/actions/setup-git-identity@v1 # zizmor: ignore[unpinned-uses] -- same-org action; intentionally allowed for now, planned to pin to a version in the future
 
       # ───────────────────── create pull request ─────────────────────
-      - uses: gardener/cc-utils/.github/actions/github-auth@v1
+      - uses: gardener/cc-utils/.github/actions/github-auth@v1 # zizmor: ignore[unpinned-uses] -- same-org action; intentionally allowed for now, planned to pin to a version in the future
         id: token
         with:
           token-server: ${{ vars.FEDERATED_GITHUB_ACCESS_TOKEN_SERVER }}
