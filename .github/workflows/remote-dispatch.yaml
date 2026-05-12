@@ -1,15 +1,13 @@
 name: Update Homebrew Formula
 
-permissions:
-  contents: write
-  id-token: write
+permissions: {}
 
 # ──────────────────────────────── TRIGGERS ────────────────────────────────
 on:
   # automatic calls from other repos
   repository_dispatch:
 
-  # manual “Run workflow” button
+  # manual "Run workflow" button
   workflow_dispatch:
     inputs:
       component:
@@ -43,21 +41,27 @@ on:
 
 # ───────────────────────────────── JOBS ───────────────────────────────────
 jobs:
-  update-formula:
+  # ─────────────────── 1. Validate & resolve inputs ────────────────────────
+  resolve-inputs:
     runs-on: ubuntu-latest
-
-    # -------- shared environment values (event-specific fall-backs) ---------
-    env:
-      TAG: ${{ inputs.tag || github.event.client_payload.tag }}
-      COMPONENT: ${{ inputs.component || github.event.client_payload.component }}
-      DARWIN_SHA_AMD64: ${{ inputs.darwin_sha_amd64 || github.event.client_payload.darwin_sha_amd64 }}
-      DARWIN_SHA_ARM64: ${{ inputs.darwin_sha_arm64 || github.event.client_payload.darwin_sha_arm64 }}
-      LINUX_SHA_AMD64: ${{ inputs.linux_sha_amd64 || github.event.client_payload.linux_sha_amd64 }}
-      LINUX_SHA_ARM64: ${{ inputs.linux_sha_arm64 || github.event.client_payload.linux_sha_arm64 }}
-
+    permissions: {}
+    outputs:
+      component: ${{ steps.validate.outputs.component }}
+      tag: ${{ steps.validate.outputs.tag }}
+      darwin_sha_amd64: ${{ steps.validate.outputs.darwin_sha_amd64 }}
+      darwin_sha_arm64: ${{ steps.validate.outputs.darwin_sha_arm64 }}
+      linux_sha_amd64: ${{ steps.validate.outputs.linux_sha_amd64 }}
+      linux_sha_arm64: ${{ steps.validate.outputs.linux_sha_arm64 }}
     steps:
-      # ──────────────── ensure valid component name ─────────────────
-      - name: Validate component
+      - name: Validate inputs
+        id: validate
+        env:
+          TAG: ${{ inputs.tag || github.event.client_payload.tag }}
+          COMPONENT: ${{ inputs.component || github.event.client_payload.component }}
+          DARWIN_SHA_AMD64: ${{ inputs.darwin_sha_amd64 || github.event.client_payload.darwin_sha_amd64 }}
+          DARWIN_SHA_ARM64: ${{ inputs.darwin_sha_arm64 || github.event.client_payload.darwin_sha_arm64 }}
+          LINUX_SHA_AMD64: ${{ inputs.linux_sha_amd64 || github.event.client_payload.linux_sha_amd64 }}
+          LINUX_SHA_ARM64: ${{ inputs.linux_sha_arm64 || github.event.client_payload.linux_sha_arm64 }}
         run: |
           case "$COMPONENT" in
             gardenlogin|gardenctl-v2|diki) ;;
@@ -67,21 +71,45 @@ jobs:
               ;;
           esac
 
-      # ─────────────── show what we received / entered ───────────────
-      - name: Event summary
-        run: |
-          echo "Triggered by : ${{ github.event_name }}"
-          echo "Component    : $COMPONENT"
-          echo "Version tag  : $TAG"
-          echo "darwin-amd64 : $DARWIN_SHA_AMD64"
-          echo "darwin-arm64 : $DARWIN_SHA_ARM64"
-          echo "linux-amd64  : $LINUX_SHA_AMD64"
-          echo "linux-arm64  : $LINUX_SHA_ARM64"
+          if ! echo "$TAG" | grep -qE '^v?[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.]+)?$'; then
+            echo "Error: Invalid tag '$TAG'"
+            exit 1
+          fi
 
-      # ──────────────────── repo checkout (pinned) ───────────────────
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2
+          for sha_val in "$DARWIN_SHA_AMD64" "$DARWIN_SHA_ARM64" "$LINUX_SHA_AMD64" "$LINUX_SHA_ARM64"; do
+            if ! echo "$sha_val" | grep -qE '^[0-9a-f]{64}$'; then
+              echo "Error: Invalid SHA256: '$sha_val'"
+              exit 1
+            fi
+          done
 
-      # ─────────────────── generate/update formula ───────────────────
+          {
+            echo "component=$COMPONENT"
+            echo "tag=$TAG"
+            echo "darwin_sha_amd64=$DARWIN_SHA_AMD64"
+            echo "darwin_sha_arm64=$DARWIN_SHA_ARM64"
+            echo "linux_sha_amd64=$LINUX_SHA_AMD64"
+            echo "linux_sha_arm64=$LINUX_SHA_ARM64"
+          } >> "$GITHUB_OUTPUT"
+
+  # ─────────────────── 2. Update formula file ──────────────────────────────
+  update-formula:
+    needs: resolve-inputs
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      TAG: ${{ needs.resolve-inputs.outputs.tag }}
+      COMPONENT: ${{ needs.resolve-inputs.outputs.component }}
+      DARWIN_SHA_AMD64: ${{ needs.resolve-inputs.outputs.darwin_sha_amd64 }}
+      DARWIN_SHA_ARM64: ${{ needs.resolve-inputs.outputs.darwin_sha_arm64 }}
+      LINUX_SHA_AMD64: ${{ needs.resolve-inputs.outputs.linux_sha_amd64 }}
+      LINUX_SHA_ARM64: ${{ needs.resolve-inputs.outputs.linux_sha_arm64 }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
       - name: Run component-specific update script
         run: |
           script=".github/workflows/update-$COMPONENT.sh"
@@ -91,29 +119,72 @@ jobs:
             "$DARWIN_SHA_AMD64" "$DARWIN_SHA_ARM64" \
             "$LINUX_SHA_AMD64"  "$LINUX_SHA_ARM64"
 
-      # ───────────────────────── git identity ────────────────────────
-      - name: Setup Git Identity
-        uses: gardener/cc-utils/.github/actions/setup-git-identity@v1
+      - name: Upload updated formula
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: formula
+          path: ${{ needs.resolve-inputs.outputs.component }}.rb
+          if-no-files-found: error
+          retention-days: 1
 
-      # ───────────────────── create pull request ─────────────────────
-      - uses: gardener/cc-utils/.github/actions/github-auth@v1
+  # ─────────────────── 3. Create pull request ──────────────────────────────
+  create-pr:
+    needs: [resolve-inputs, update-formula]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    env:
+      TAG: ${{ needs.resolve-inputs.outputs.tag }}
+      COMPONENT: ${{ needs.resolve-inputs.outputs.component }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Download updated formula
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: formula
+
+      - name: Setup Git Identity
+        uses: gardener/cc-utils/.github/actions/setup-git-identity@v1 # zizmor: ignore[unpinned-uses] -- same-org action; intentionally allowed for now, planned to pin to a version in the future
+
+      - uses: gardener/cc-utils/.github/actions/github-auth@v1 # zizmor: ignore[unpinned-uses] -- same-org action; intentionally allowed for now, planned to pin to a version in the future
         id: token
         with:
           token-server: ${{ vars.FEDERATED_GITHUB_ACCESS_TOKEN_SERVER }}
           repositories: ${{ github.event.repository.name }}
           permissions: |
             pull-requests: write
+
       - name: Create pull request
         env:
+          GIT_PUSH_TOKEN: ${{ github.token }}
           GITHUB_TOKEN: ${{ steps.token.outputs.token }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
+          BASIC_AUTH="$(printf 'x-access-token:%s' "$GIT_PUSH_TOKEN" | base64 | tr -d '\n')"
+          AUTH_HEADER="AUTHORIZATION: basic $BASIC_AUTH"
+
+          echo "::add-mask::$GIT_PUSH_TOKEN"
+          echo "::add-mask::$BASIC_AUTH"
+          echo "::add-mask::$AUTH_HEADER"
+
+          git_with_auth() {
+            GIT_CONFIG_COUNT=1 \
+            GIT_CONFIG_KEY_0="http.https://github.com/.extraheader" \
+            GIT_CONFIG_VALUE_0="$AUTH_HEADER" \
+            git "$@"
+          }
+
           branch="update_${COMPONENT}_${TAG}"
           git switch -c "$branch"
           git add "$COMPONENT.rb"
           git commit -m "update $COMPONENT to $TAG"
-          git push -u origin "$branch"
+          git_with_auth push -u origin "$branch"
           gh pr create \
             --head "$branch" \
-            --base "${{ github.event.repository.default_branch }}" \
-            --title "update $COMPONENT to ${{ env.TAG }}" \
-            --body  "Updates Homebrew Formula for **$COMPONENT** (${{ env.TAG }})."
+            --base "$DEFAULT_BRANCH" \
+            --title "update $COMPONENT to $TAG" \
+            --body  "Updates Homebrew Formula for **$COMPONENT** ($TAG)."
