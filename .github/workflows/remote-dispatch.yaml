@@ -187,4 +187,4 @@ jobs:
             --head "$branch" \
             --base "$DEFAULT_BRANCH" \
             --title "update $COMPONENT to $TAG" \
-            --body  "Updates Homebrew Formula for **$COMPONENT** ($TAG)."
+            --body "$(printf 'Updates Homebrew Formula for **%s** (%s).\n\n/area ops-productivity\n/kind enhancement' "$COMPONENT" "$TAG")"
