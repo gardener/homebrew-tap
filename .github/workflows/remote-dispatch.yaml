@@ -178,7 +178,7 @@ jobs:
             git "$@"
           }
 
-          branch="update_${COMPONENT}_${TAG}"
+          branch="ci-update-${COMPONENT}-${TAG}"
           git switch -c "$branch"
           git add "$COMPONENT.rb"
           git commit -m "update $COMPONENT to $TAG"
