@@ -106,7 +106,7 @@ jobs:
       LINUX_SHA_AMD64: ${{ needs.resolve-inputs.outputs.linux_sha_amd64 }}
       LINUX_SHA_ARM64: ${{ needs.resolve-inputs.outputs.linux_sha_arm64 }}
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
@@ -138,7 +138,7 @@ jobs:
       TAG: ${{ needs.resolve-inputs.outputs.tag }}
       COMPONENT: ${{ needs.resolve-inputs.outputs.component }}
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
