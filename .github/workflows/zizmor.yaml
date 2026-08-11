@@ -24,8 +24,6 @@ jobs:
           persist-credentials: false
       - uses: zizmorcore/zizmor-action@6fc4b006235f201fdab3722e17240ab420d580e5 # v0.6.1
         with:
-          # renovate: datasource=github-releases depName=zizmorcore/zizmor
-          version: v1.24.1
           min-severity: low
           min-confidence: low
           advanced-security: false
