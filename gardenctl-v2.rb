@@ -5,25 +5,25 @@
 class GardenctlV2 < Formula
   desc "Command-line tool for managing Gardener clusters"
   homepage "https://gardener.cloud"
-  version "2.18.0"
+  version "2.19.1"
 
   depends_on "gardener/tap/gardenlogin"
 
   if OS.mac?
     if Hardware::CPU.arm?
-      url "https://github.com/gardener/gardenctl-v2/releases/download/v2.18.0/gardenctl_v2_darwin_arm64"
-      sha256 "7e88203b5560aa111b76b78b68ecb68017722303b214aaffaeef81be5b02887a"
+      url "https://github.com/gardener/gardenctl-v2/releases/download/v2.19.1/gardenctl_v2_darwin_arm64"
+      sha256 "2dac4aa190a68e4cea4f0279e2081ca3a3e0fe1bec2a4e47a767248b3562aff3"
     else
-      url "https://github.com/gardener/gardenctl-v2/releases/download/v2.18.0/gardenctl_v2_darwin_amd64"
-      sha256 "8fccb2c18dd27bfbcbb6bd34ed06c98fec5e366be67666e864656542286230ff"
+      url "https://github.com/gardener/gardenctl-v2/releases/download/v2.19.1/gardenctl_v2_darwin_amd64"
+      sha256 "34b0d634b5212ba8a954134898a7f25de4294b868452dbc24cfaf1faa88a4a97"
     end
   elsif OS.linux?
     if Hardware::CPU.arm?
-      url "https://github.com/gardener/gardenctl-v2/releases/download/v2.18.0/gardenctl_v2_linux_arm64"
-      sha256 "545a6b0d4ba7fb43520a275dcba75ca8f0b50bdcbe1d21c780d14beaf4af6e41"
+      url "https://github.com/gardener/gardenctl-v2/releases/download/v2.19.1/gardenctl_v2_linux_arm64"
+      sha256 "7df8c7ff54e98350fca4b19b0daa6354d96c04b82b63fd2a57e5e0bf8de68c24"
     else
-      url "https://github.com/gardener/gardenctl-v2/releases/download/v2.18.0/gardenctl_v2_linux_amd64"
-      sha256 "ae0e6f0964212668c85950eeb01be542ed22fe4a2be6b58762988a31b817ae69"
+      url "https://github.com/gardener/gardenctl-v2/releases/download/v2.19.1/gardenctl_v2_linux_amd64"
+      sha256 "b8f7153988f6e9fc75723d8afca124b1f3998e45ad56b5d64123ce0996c9ea4c"
       depends_on arch: :x86_64
     end
   end
